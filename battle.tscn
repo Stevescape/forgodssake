@@ -1,0 +1,395 @@
+[gd_scene load_steps=9 format=3 uid="uid://btelefs6tf63j"]
+
+[ext_resource type="Texture2D" uid="uid://dsbnuddqvb4ag" path="res://battleback1.png" id="1_jty1y"]
+[ext_resource type="Script" path="res://scripts/TurnSystem.gd" id="1_nmcgj"]
+[ext_resource type="Texture2D" uid="uid://bkmj5mbil2kcr" path="res://player-1.png-2.png" id="2_0pkmj"]
+[ext_resource type="Script" path="res://scripts/BaseEnemy.gd" id="3_or7ah"]
+[ext_resource type="Script" path="res://scripts/GlobalTextbox.gd" id="5_ljl7d"]
+[ext_resource type="Script" path="res://scripts/Poseidon.gd" id="6_ar5vn"]
+[ext_resource type="Script" path="res://scripts/Hades.gd" id="7_wsy4e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64qo1"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("player1", "player2", "player3", "player4", "enemy")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nmcgj")
+player1 = NodePath("Players/Player1")
+player2 = NodePath("Players/Player2")
+player3 = NodePath("Players/Player3")
+player4 = NodePath("Players/Player4")
+enemy = NodePath("Enemy")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_jty1y")
+
+[node name="Enemy" type="VBoxContainer" parent="." node_paths=PackedStringArray("progressBar")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -92.0
+offset_top = 61.0
+offset_right = 88.0
+offset_bottom = 288.0
+grow_horizontal = 2
+script = ExtResource("3_or7ah")
+entity_name = "Steven"
+max_health = 30
+dmg = 4
+defense = 2
+progressBar = NodePath("ProgressBar")
+
+[node name="ProgressBar" type="ProgressBar" parent="Enemy"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="Enemy/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Enemy"]
+layout_mode = 2
+texture = ExtResource("2_0pkmj")
+expand_mode = 5
+
+[node name="Textbox" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(1000, 200)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_64qo1")
+script = ExtResource("5_ljl7d")
+
+[node name="Label" type="Label" parent="Textbox"]
+custom_minimum_size = Vector2(900, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Temp text"
+
+[node name="Players" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -404.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Player1" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("6_ar5vn")
+entity_name = "Bozianna"
+max_health = 10
+dmg = 4
+defense = 2
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player1"]
+layout_mode = 2
+texture = ExtResource("2_0pkmj")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player1"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player1/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player1/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player1/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player1/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player1/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player1/PlayerInfo/Data/Buttons" groups=["Buttons", "Player1Btns"]]
+layout_mode = 2
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player1/PlayerInfo/Data/Buttons" groups=["Buttons", "Player1Btns"]]
+layout_mode = 2
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player1/PlayerInfo/Data/Buttons" groups=["Buttons", "Player1Btns"]]
+layout_mode = 2
+text = "Attack"
+
+[node name="Player2" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("7_wsy4e")
+entity_name = "Bjor"
+max_health = 12
+dmg = 1
+defense = 2
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player2"]
+layout_mode = 2
+texture = ExtResource("2_0pkmj")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player2"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player2/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player2/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 2"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player2/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player2/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player2/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player2/PlayerInfo/Data/Buttons" groups=["Buttons", "Player2Btns"]]
+layout_mode = 2
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player2/PlayerInfo/Data/Buttons" groups=["Buttons", "Player2Btns"]]
+layout_mode = 2
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player2/PlayerInfo/Data/Buttons" groups=["Buttons", "Player2Btns"]]
+layout_mode = 2
+text = "Attack"
+
+[node name="Player3" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("6_ar5vn")
+entity_name = "a"
+max_health = 8
+dmg = 6
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player3"]
+layout_mode = 2
+texture = ExtResource("2_0pkmj")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player3"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player3/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player3/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 3"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player3/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player3/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player3/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player3/PlayerInfo/Data/Buttons" groups=["Buttons", "Player3Btns"]]
+layout_mode = 2
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player3/PlayerInfo/Data/Buttons" groups=["Buttons", "Player3Btns"]]
+layout_mode = 2
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player3/PlayerInfo/Data/Buttons" groups=["Buttons", "Player3Btns"]]
+layout_mode = 2
+text = "Attack"
+
+[node name="Player4" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("6_ar5vn")
+entity_name = "temp"
+max_health = 10
+dmg = 3
+defense = 3
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player4"]
+layout_mode = 2
+texture = ExtResource("2_0pkmj")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player4"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player4/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player4/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 4"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player4/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player4/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player4/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player4/PlayerInfo/Data/Buttons" groups=["Buttons", "Player4Btns"]]
+layout_mode = 2
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player4/PlayerInfo/Data/Buttons" groups=["Buttons", "Player4Btns"]]
+layout_mode = 2
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player4/PlayerInfo/Data/Buttons" groups=["Buttons", "Player4Btns"]]
+layout_mode = 2
+text = "Attack"
+
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/move1" to="." method="_on_p1_mv1_pressed"]
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/move2" to="." method="_on_p1_mv2_pressed"]
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/attack" to="." method="_on_p1_att_pressed"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Data/Buttons/move1" to="." method="_on_p2_mv1_pressed"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Data/Buttons/move2" to="." method="_on_p2_mv2_pressed"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Data/Buttons/attack" to="." method="_on_p2_att_pressed"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Data/Buttons/move1" to="." method="_on_p3_mv1_pressed"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Data/Buttons/move2" to="." method="_on_p3_mv2_pressed"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Data/Buttons/attack" to="." method="_on_p3_att_pressed"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/move1" to="." method="_on_p4_mv1_pressed"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/move2" to="." method="_on_p4_mv2_pressed"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/attack" to="." method="_on_p4_att_pressed"]
