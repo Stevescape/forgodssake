@@ -8,7 +8,6 @@ class_name Character
 @export var progressBar: Node
 var health 
 var textbox
-var textbox_closed
 var skip_turn = false
 var is_dead = false
 var animPlayer
@@ -19,6 +18,7 @@ func _ready() -> void:
 	health = max_health
 	update_health()
 
+@rpc("any_peer", "call_local", "reliable")
 func take_damage(damage: int, show_textbox=true):
 	var temp = max(0, damage - defense)
 	health -= temp
@@ -29,12 +29,13 @@ func take_damage(damage: int, show_textbox=true):
 	if health <= 0:
 		await die()
 
+@rpc("any_peer", "call_local", "reliable")
 func heal(amount: int):
 	health = min(max_health, health+amount)
 	await textbox.display_text("%s has healed %d hp." % [entity_name, amount])
 	await update_health()
 	
-
+@rpc("any_peer", "call_local", "reliable")
 func display_text(text):
 	await textbox.display_text(text)
 
@@ -56,6 +57,9 @@ func _update_label(is_enemy=false):
 func play_animation(animation):
 	animPlayer.play(animation)
 	await animPlayer.animation_finished
+
+func put_tooltips(player):
+	pass
 
 func move1(enemy, players, targets):
 	pass

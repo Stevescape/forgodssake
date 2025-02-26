@@ -36,10 +36,13 @@ func _on_connected_to_server():
 	player_list.add_item("You")
 
 func _on_host_pressed() -> void:
+	GlobalSignal.is_multi = true
 	var port = get_node("Panel/VBoxContainer/HBoxContainer/VBoxContainer2/LineEdit").text.to_int()
 	host_game(port)
 	
 func _on_join_pressed() -> void:
+	GlobalSignal.is_multi = true
+	start_button.visible = false
 	var ip = get_node("Panel/VBoxContainer/HBoxContainer/VBoxContainer/LineEdit").text
 	var port = get_node("Panel/VBoxContainer/HBoxContainer/VBoxContainer2/LineEdit").text.to_int()
 	join_game(ip, port)

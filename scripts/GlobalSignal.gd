@@ -6,5 +6,8 @@ signal summon_dog
 signal enemy_done
 signal player_done
 signal summon_done
+signal player_selected(player)
 
 var player_ids = []
+var is_multi = false
+var cur_player = 0
