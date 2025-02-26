@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsbnuddqvb4ag"
-path="res://.godot/imported/battleback1.png-b20229549d21ba0915c069565e41b38a.ctex"
+uid="uid://baudvwj1crft8"
+path="res://.godot/imported/dogus.png-24225ccb140e1f9fc8d532bf6eab4500.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://battleback1.png"
-dest_files=["res://.godot/imported/battleback1.png-b20229549d21ba0915c069565e41b38a.ctex"]
+source_file="res://Assets/dogus.png"
+dest_files=["res://.godot/imported/dogus.png-24225ccb140e1f9fc8d532bf6eab4500.ctex"]
 
 [params]
 

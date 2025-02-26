@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1077nua0f6m3"]
+
+[ext_resource type="Script" path="res://Scripts/Dog.gd" id="1_0j1d0"]
+[ext_resource type="Texture2D" uid="uid://baudvwj1crft8" path="res://Assets/dogus.png" id="2_y7my2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kwtwf"]
+bg_color = Color(0.705882, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cey5j"]
+bg_color = Color(0.945098, 0.6, 0.6, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_athdr"]
+bg_color = Color(0.6, 0.94902, 0.6, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[node name="Dog" type="Control" node_paths=PackedStringArray("progressBar")]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0j1d0")
+entity_name = "Borpie"
+max_health = 5
+progressBar = NodePath("Panel/Data/ProgressBar")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kwtwf")
+
+[node name="Data" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_cey5j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_athdr")
+value = 10.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Panel/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Panel/Data"]
+layout_mode = 2
+texture = ExtResource("2_y7my2")
+expand_mode = 5

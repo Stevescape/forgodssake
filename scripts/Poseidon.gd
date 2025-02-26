@@ -2,26 +2,30 @@ extends Character
 
 class_name Poseidon
 
-func move1(enemy, players):
-	var dmg = 2
-	var heal = 3
+@export var mv1_dmg: int = 2
+@export var mv1_heal: int = 3
+@export var mv2_dmg: int = 8
+@export var att_dmg: int = 4
+
+func move1(enemy, players, targets):
 	# First target is enemy, second is ally
 	await display_text("Water")
 	
-	var ally: Character = players[1]
+	await enemy.take_damage(mv1_dmg)
+	await targets.heal(mv1_heal)
 	
-	await enemy.take_damage(dmg)
-	await ally.heal(heal)
 	
-func move2(enemy, players):
-	var dmg = 6
+func move2(enemy, players, targets):
 	skip_turn = true
 	
 	await display_text("Tsunami")
-	await enemy.take_damage(dmg)
+	
+	await play_animation("tsunami")
+	
+	await enemy.take_damage(mv2_dmg)
 	
 	
-func attack(enemy, players):
 	
+func attack(enemy, players, targets):
 	await display_text("Stab")
-	await enemy.take_damage(dmg)
+	await enemy.take_damage(att_dmg)

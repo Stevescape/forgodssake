@@ -8,6 +8,7 @@ func display_text(text):
 
 	textbox.show()
 	textbox.get_node("Label").text = text
+	await get_tree().create_timer(0.5).timeout
 	await GlobalSignal.close_box
 
 	textbox.hide()

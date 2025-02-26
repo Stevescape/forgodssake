@@ -1,0 +1,4 @@
+res://Scenes/dog.tscn
+res://Scenes/lobby.tscn
+res://Scripts/Multiplayer.gd
+res://Scenes/battle.tscn
