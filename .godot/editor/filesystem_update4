@@ -1,13 +1,4 @@
 res://Scenes/battle.tscn
 res://Scenes/dog.tscn
 res://Scenes/lobby.tscn
-res://scripts/Multiplayer.gd
-res://scripts/Poseidon.gd
-res://scripts/TurnSystem.gd
-res://Scripts/Multiplayer.gd
-res://Scripts/Poseidon.gd
-res://Scripts/TurnSystem.gd
-res://Scripts/GlobalSignal.gd
-res://Scripts/Character.gd
-res://Scripts/Dog.gd
-res://Scripts/GlobalTextbox.gd
+res://Scenes/CharacterSelect.tscn

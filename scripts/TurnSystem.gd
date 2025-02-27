@@ -21,21 +21,28 @@ signal advanced
 signal move_selected
 
 func _ready() -> void:
-	static_players = [player1, player2, player3, player4]
+	print(GlobalSignal.player_display_names)
+	static_players = get_tree().get_nodes_in_group("Players")
+	for i in range(4):
+		var script = load(CharacterSelect.selected_characters[i])
+		static_players[i].set_script(script)
+		static_players[i]._ready()
+		static_players[i].set_process(true)
+		
+		if i == 0:
+			player1 = static_players[i]
+		elif i == 1:
+			player2 = static_players[i]
+		elif i == 2:
+			player3 = static_players[i]
+		elif i == 3:
+			player4 = static_players[i]
 	
-	players = static_players.duplicate()
 	
-	if not GlobalSignal.is_multi:
-		player_ids.append(multiplayer.get_unique_id())
-	
-	# Ensure player_ids are at least 4 in case there are less than 4 players
-	if player_ids.size() < 4:
-		var i = 0
-		while player_ids.size() < 4:
-			player_ids.append(player_ids[i])
-			i += 1
-	
-	print(player_ids)
+	players = [player1, player2, player3, player4]
+
+	print(str(multiplayer.get_unique_id()))
+	print(static_players)
 	
 	var i = 1
 	for player in players:
@@ -43,24 +50,25 @@ func _ready() -> void:
 		player.update_health()
 		player._update_label()
 		player.put_tooltips(i)
+		player.load_image(player.get_image_path())
 		i += 1
 
 	enemy.health = enemy.max_health
 	enemy.update_health()
 	enemy._update_label(true)
+	enemy.load_image(enemy.get_image_path())
 
 	GlobalSignal.summon_dog.connect(_on_summon)
 	
 	disable_all_buttons.rpc()
 	
-	print(GlobalSignal.is_multi)
 	if not GlobalSignal.is_multi :
 		start_game_singleplayer()
 	elif multiplayer.is_server():
 		start_game_multiplayer()
 
 ### 🌟 Multiplayer-Safe Turn Loop
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_remote", "reliable")
 func start_game_multiplayer():
 	while run_game:
 		
@@ -74,10 +82,13 @@ func start_game_multiplayer():
 					
 					players[cur_player].skip_turn = false
 				advance_player.rpc()
+				await advanced
 				continue
 			# Wait for the player to finish their move
-			enable_player_buttons.rpc(cur_player)
+			if not players[cur_player].is_dead:
+				enable_player_buttons.rpc(cur_player)
 			player_turn.rpc()
+			print("Waiting")
 			await GlobalSignal.player_done
 			
 			check_enemy_death.rpc()
@@ -160,7 +171,8 @@ func check_death():
 		await $Textbox.display_text("Good luck next time!")
 		run_game = false
 		disable_all_buttons.rpc()
-		$Menu.show()
+		$Lose.show()
+		
 
 @rpc ("any_peer", "call_local", "reliable")
 func check_enemy_death():	
@@ -168,7 +180,7 @@ func check_enemy_death():
 		await $Textbox.display_text("Congratulations! You are winner!")
 		run_game = false
 		disable_all_buttons.rpc()
-		$Menu.show()
+		$Win.show()
 
 
 ### 🌟 Synchronize Player Turn
@@ -179,6 +191,10 @@ func player_turn():
 	disable_all_buttons.rpc()  # Disable buttons for all other players
 	
 	await move.call(enemy, players, players[generate_target(players)])
+	emit_player_done.rpc()
+
+@rpc("any_peer", "call_local", "reliable")
+func emit_player_done():
 	GlobalSignal.player_done.emit()
 
 ### 🌟 Synchronize Turn Advancement
@@ -187,6 +203,7 @@ func advance_player():
 	cur_player += 1
 	cur_player = cur_player % static_players.size()
 	GlobalSignal.cur_player = cur_player
+	$TurnIndicator/Label.text = "Player %d's Turn" % (cur_player+1)
 	print("Next turn: Player", cur_player + 1)
 	await get_tree().create_timer(0.5).timeout
 	advanced.emit()
@@ -283,8 +300,15 @@ func enemy_turn_singleplayer():
 # Broadcast the enemy's move to all peers
 @rpc("any_peer", "call_local", "reliable")
 func enemy_move_rpc(move_type: String, targets):
+	print(str(multiplayer.get_unique_id()) + " running enemy_move")
 	await get_tree().create_timer(0.5).timeout
 	# Make sure all peers execute the same move type
+	if enemy.skip_turn:
+		enemy.skip_turn = false
+		await enemy.display_text("%s has been stunned." % enemy.entity_name)
+		GlobalSignal.enemy_done.emit()
+		return
+	
 	if move_type == "move1":
 		await enemy.move1(enemy, players, targets)
 	elif move_type == "move2":
@@ -292,7 +316,6 @@ func enemy_move_rpc(move_type: String, targets):
 	elif move_type == "attack":
 		await enemy.attack(enemy, players, targets)
 	GlobalSignal.enemy_done.emit()
-	print("Emitted")
 
 ### 🌟 Summon Handling with Multiplayer
 func _on_summon():
@@ -389,12 +412,13 @@ func disable_all_buttons():
 
 @rpc ("authority", "call_local", "reliable")
 func enable_player_buttons(player: int):
-	if multiplayer.get_unique_id() == player_ids[cur_player]:
+	if multiplayer.get_unique_id() == player_ids[cur_player] and not players[cur_player].is_dead:
 		for button in get_tree().get_nodes_in_group("Player%dBtns" % (player+1)):
 			button.disabled = false
 
 func _input(event: InputEvent) -> void:
 	if $Textbox.visible and (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_pressed("ui_accept")):
+		await get_tree().create_timer(0.1).timeout
 		emit_close_box.rpc()
 
 @rpc ("any_peer", "call_local", "reliable")

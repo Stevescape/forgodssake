@@ -11,3 +11,5 @@ signal player_selected(player)
 var player_ids = []
 var is_multi = false
 var cur_player = 0
+var enemy
+var player_display_names = {}

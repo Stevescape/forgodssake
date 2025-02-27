@@ -19,11 +19,16 @@ config/icon="res://icon.svg"
 
 GlobalSignal="*res://Scripts/GlobalSignal.gd"
 GlobalTextbox="*res://Scripts/GlobalTextbox.gd"
+CharacterSelect="*res://Scripts/CharacterSelect.gd"
 
 [display]
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+
+[global_group]
+
+Players=""
 
 [rendering]
 

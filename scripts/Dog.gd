@@ -12,8 +12,6 @@ func heal(amount: int):
 	health = max(0, health-amount)
 	await textbox.display_text("%s has taken %d damage from the holy power." % [entity_name, amount])
 	update_health()
-	
-
 
 func _on_button_pressed() -> void:
 	GlobalSignal.player_selected.emit(4)

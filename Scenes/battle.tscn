@@ -1,12 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://btelefs6tf63j"]
+[gd_scene load_steps=27 format=3 uid="uid://btelefs6tf63j"]
 
 [ext_resource type="Script" path="res://Scripts/TurnSystem.gd" id="1_gtjua"]
 [ext_resource type="Texture2D" uid="uid://bhe4jj7f3yd5l" path="res://Assets/mountain.png" id="2_yuwhr"]
 [ext_resource type="Script" path="res://Scripts/BaseEnemy.gd" id="3_r26nj"]
-[ext_resource type="Texture2D" uid="uid://bkmj5mbil2kcr" path="res://Assets/player-1.png-2.png" id="4_8ytfq"]
+[ext_resource type="Texture2D" uid="uid://cumdni8fe20qk" path="res://Assets/enemy.png" id="4_7h8us"]
+[ext_resource type="Texture2D" uid="uid://bkmj5mbil2kcr" path="res://Assets/red.png" id="4_8ytfq"]
 [ext_resource type="Script" path="res://Scripts/GlobalTextbox.gd" id="5_ao0xj"]
-[ext_resource type="Script" path="res://Scripts/Poseidon.gd" id="6_4ivec"]
-[ext_resource type="Script" path="res://Scripts/Hades.gd" id="7_pnkpd"]
+[ext_resource type="Texture2D" uid="uid://cgg1ex6u4726s" path="res://Assets/shield.png" id="8_a1lb6"]
 [ext_resource type="Texture2D" uid="uid://cfcst2is7evd5" path="res://Assets/wave.png" id="8_q757j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqmip"]
@@ -25,6 +25,89 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Animation" id="Animation_wn3t6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect/Shield:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_44m2c"]
+resource_name = "heal"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hx3yy"]
+resource_name = "shield"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect/Shield:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.415686), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6k3iv"]
+resource_name = "take_damage"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(0.458824, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tn5sn"]
+_data = {
+"RESET": SubResource("Animation_wn3t6"),
+"heal": SubResource("Animation_44m2c"),
+"shield": SubResource("Animation_hx3yy"),
+"take_damage": SubResource("Animation_6k3iv")
+}
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64qo1"]
 bg_color = Color(0.18359, 0.18359, 0.18359, 1)
 border_width_left = 2
@@ -39,41 +122,125 @@ corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p881e"]
 
-[sub_resource type="Animation" id="Animation_rtybf"]
+[sub_resource type="Animation" id="Animation_g5daa"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
+tracks/0/path = NodePath("TextureRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-663, 6)]
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect/Shield:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../TextureRect:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1621, 9)]
 }
 
-[sub_resource type="Animation" id="Animation_02482"]
+[sub_resource type="Animation" id="Animation_jwx8q"]
+resource_name = "heal"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(0.411765, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_i4hju"]
+resource_name = "shield"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect/Shield:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.415686), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xp3yt"]
+resource_name = "take_damage"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(0.454902, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_10jv3"]
 resource_name = "tsunami"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
-tracks/0/interp = 1
+tracks/0/path = NodePath("../../TextureRect:position")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-663, 6), Vector2(1621, 9)]
+"values": [Vector2(-624, 17), Vector2(1621, 9)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_bhmys"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h786p"]
 _data = {
-"RESET": SubResource("Animation_rtybf"),
-"tsunami": SubResource("Animation_02482")
+"RESET": SubResource("Animation_g5daa"),
+"heal": SubResource("Animation_jwx8q"),
+"shield": SubResource("Animation_i4hju"),
+"take_damage": SubResource("Animation_xp3yt"),
+"tsunami": SubResource("Animation_10jv3")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8jv1"]
+bg_color = Color(0.964706, 0.337255, 0.329412, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k1ltq"]
+font_size = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r42d"]
+bg_color = Color(0.6, 0.882353, 0.6, 1)
 
 [node name="Control" type="Control" node_paths=PackedStringArray("player1", "player2", "player3", "player4", "enemy")]
 layout_mode = 3
@@ -98,7 +265,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_yuwhr")
 
-[node name="EnemyInfo" type="Panel" parent="." node_paths=PackedStringArray("progressBar")]
+[node name="EnemyInfo" type="Panel" parent="."]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 1
 anchors_preset = 10
@@ -106,27 +273,13 @@ anchor_right = 1.0
 offset_bottom = 100.0
 grow_horizontal = 2
 script = ExtResource("3_r26nj")
+mv1_dmg = 6
+mv2_dmg = 8
+att_dmg = 9
 entity_name = "Thor"
-max_health = 50
-progressBar = NodePath("Data/ProgressBar")
+max_health = 75
 
-[node name="Enemy" type="VBoxContainer" parent="EnemyInfo"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -90.0
-offset_top = 101.0
-offset_right = 90.0
-offset_bottom = 328.0
-grow_horizontal = 2
-
-[node name="TextureRect" type="TextureRect" parent="EnemyInfo/Enemy"]
-layout_mode = 2
-texture = ExtResource("4_8ytfq")
-expand_mode = 5
-
-[node name="Data" type="HBoxContainer" parent="EnemyInfo"]
+[node name="PlayerInfo" type="Control" parent="EnemyInfo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -134,13 +287,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="EnemyInfo/Data"]
+[node name="Data" type="HBoxContainer" parent="EnemyInfo/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="EnemyInfo/PlayerInfo/Data"]
 layout_mode = 2
 size_flags_horizontal = 3
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="EnemyInfo/Data"]
+[node name="ProgressBar" type="ProgressBar" parent="EnemyInfo/PlayerInfo/Data"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -149,7 +310,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_iqmip")
 theme_override_styles/fill = SubResource("StyleBoxFlat_om2gf")
 show_percentage = false
 
-[node name="Label" type="Label" parent="EnemyInfo/Data/ProgressBar"]
+[node name="Label" type="Label" parent="EnemyInfo/PlayerInfo/Data/ProgressBar"]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -161,6 +322,34 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "HP: 10/10"
 horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="EnemyInfo"]
+layout_mode = 2
+offset_left = 710.0
+offset_top = 101.0
+offset_right = 890.0
+offset_bottom = 320.255
+texture = ExtResource("4_7h8us")
+expand_mode = 5
+
+[node name="Shield" type="TextureRect" parent="EnemyInfo/TextureRect"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_a1lb6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyInfo"]
+libraries = {
+"": SubResource("AnimationLibrary_tn5sn")
+}
 
 [node name="Textbox" type="Panel" parent="."]
 visible = false
@@ -203,19 +392,29 @@ offset_top = -404.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Player1" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+[node name="Player1" type="VBoxContainer" parent="Players" groups=["Players"]]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 8
-script = ExtResource("6_4ivec")
-entity_name = "Bozianna"
-max_health = 12
-progressBar = NodePath("PlayerInfo/Data/ProgressBar")
 
 [node name="TextureRect" type="TextureRect" parent="Players/Player1"]
 layout_mode = 2
 texture = ExtResource("4_8ytfq")
 expand_mode = 5
+
+[node name="Shield" type="TextureRect" parent="Players/Player1/TextureRect"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_a1lb6")
 
 [node name="PlayerInfo" type="Panel" parent="Players/Player1"]
 custom_minimum_size = Vector2(250, 300)
@@ -289,21 +488,34 @@ grow_vertical = 0
 text = "Select This Player
 "
 
-[node name="Player2" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Players/Player1"]
+libraries = {
+"": SubResource("AnimationLibrary_h786p")
+}
+
+[node name="Player2" type="VBoxContainer" parent="Players" groups=["Players"]]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 8
-script = ExtResource("7_pnkpd")
-entity_name = "Bjor"
-max_health = 12
-defense = 2
-progressBar = NodePath("PlayerInfo/Data/ProgressBar")
 
 [node name="TextureRect" type="TextureRect" parent="Players/Player2"]
-self_modulate = Color(1, 1, 0, 1)
 layout_mode = 2
 texture = ExtResource("4_8ytfq")
 expand_mode = 5
+
+[node name="Shield" type="TextureRect" parent="Players/Player2/TextureRect"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_a1lb6")
 
 [node name="PlayerInfo" type="Panel" parent="Players/Player2"]
 custom_minimum_size = Vector2(250, 300)
@@ -376,21 +588,34 @@ grow_vertical = 0
 text = "Select This Player
 "
 
-[node name="Player3" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Players/Player2"]
+libraries = {
+"": SubResource("AnimationLibrary_h786p")
+}
+
+[node name="Player3" type="VBoxContainer" parent="Players" groups=["Players"]]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 8
-script = ExtResource("6_4ivec")
-mv2_dmg = 6
-entity_name = "a"
-max_health = 10
-progressBar = NodePath("PlayerInfo/Data/ProgressBar")
 
 [node name="TextureRect" type="TextureRect" parent="Players/Player3"]
-self_modulate = Color(0, 1, 1, 1)
 layout_mode = 2
 texture = ExtResource("4_8ytfq")
 expand_mode = 5
+
+[node name="Shield" type="TextureRect" parent="Players/Player3/TextureRect"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_a1lb6")
 
 [node name="PlayerInfo" type="Panel" parent="Players/Player3"]
 custom_minimum_size = Vector2(250, 300)
@@ -463,22 +688,34 @@ grow_vertical = 0
 text = "Select This Player
 "
 
-[node name="Player4" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Players/Player3"]
+libraries = {
+"": SubResource("AnimationLibrary_h786p")
+}
+
+[node name="Player4" type="VBoxContainer" parent="Players" groups=["Players"]]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 8
-script = ExtResource("6_4ivec")
-mv2_dmg = 6
-entity_name = "temp"
-max_health = 10
-defense = 3
-progressBar = NodePath("PlayerInfo/Data/ProgressBar")
 
 [node name="TextureRect" type="TextureRect" parent="Players/Player4"]
-modulate = Color(0.74251, 0.000361847, 0.727659, 1)
 layout_mode = 2
 texture = ExtResource("4_8ytfq")
 expand_mode = 5
+
+[node name="Shield" type="TextureRect" parent="Players/Player4/TextureRect"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_a1lb6")
 
 [node name="PlayerInfo" type="Panel" parent="Players/Player4"]
 custom_minimum_size = Vector2(250, 300)
@@ -551,27 +788,102 @@ grow_vertical = 0
 text = "Select This Player
 "
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Players/Player4"]
 libraries = {
-"": SubResource("AnimationLibrary_bhmys")
+"": SubResource("AnimationLibrary_h786p")
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -663.0
-offset_top = 6.0
-offset_right = -61.0
-offset_bottom = 366.0
+offset_left = 1621.0
+offset_top = 9.0
+offset_right = 2223.0
+offset_bottom = 369.0
 texture = ExtResource("8_q757j")
 
-[node name="Menu" type="Button" parent="."]
+[node name="TurnIndicator" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -225.0
+offset_top = -40.0
+offset_right = 274.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="TurnIndicator"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Player 1's Turn"
+horizontal_alignment = 1
+
+[node name="Lose" type="Panel" parent="."]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w8jv1")
+
+[node name="Label" type="Label" parent="Lose"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 230.0
+grow_horizontal = 2
+text = "You Lose!"
+label_settings = SubResource("LabelSettings_k1ltq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Menu" type="Button" parent="Lose"]
 layout_mode = 0
-offset_left = 642.0
-offset_top = 562.0
-offset_right = 981.0
-offset_bottom = 836.0
+offset_left = 626.0
+offset_top = 450.0
+offset_right = 965.0
+offset_bottom = 724.0
 text = "Back To Menu"
+
+[node name="Win" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8r42d")
+
+[node name="Label" type="Label" parent="Win"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 230.0
+grow_horizontal = 2
+text = "You Win!"
+label_settings = SubResource("LabelSettings_k1ltq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Menu" type="Button" parent="Win"]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 450.0
+offset_right = 965.0
+offset_bottom = 724.0
+text = "Back To Menu"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
 
 [connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/move1" to="." method="_on_p1_mv1_pressed"]
 [connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/move2" to="." method="_on_p1_mv2_pressed"]
@@ -589,4 +901,5 @@ text = "Back To Menu"
 [connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/move2" to="." method="_on_p4_mv2_pressed"]
 [connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/attack" to="." method="_on_p4_att_pressed"]
 [connection signal="pressed" from="Players/Player4/PlayerInfo/Select" to="." method="_select_p4"]
-[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Lose/Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Win/Menu" to="." method="_on_menu_pressed"]
