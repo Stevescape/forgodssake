@@ -1,0 +1,592 @@
+[gd_scene load_steps=16 format=3 uid="uid://btelefs6tf63j"]
+
+[ext_resource type="Script" path="res://Scripts/TurnSystem.gd" id="1_gtjua"]
+[ext_resource type="Texture2D" uid="uid://bhe4jj7f3yd5l" path="res://Assets/mountain.png" id="2_yuwhr"]
+[ext_resource type="Script" path="res://Scripts/BaseEnemy.gd" id="3_r26nj"]
+[ext_resource type="Texture2D" uid="uid://bkmj5mbil2kcr" path="res://Assets/player-1.png-2.png" id="4_8ytfq"]
+[ext_resource type="Script" path="res://Scripts/GlobalTextbox.gd" id="5_ao0xj"]
+[ext_resource type="Script" path="res://Scripts/Poseidon.gd" id="6_4ivec"]
+[ext_resource type="Script" path="res://Scripts/Hades.gd" id="7_pnkpd"]
+[ext_resource type="Texture2D" uid="uid://cfcst2is7evd5" path="res://Assets/wave.png" id="8_q757j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqmip"]
+bg_color = Color(0.917647, 0.6, 0.6, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_om2gf"]
+bg_color = Color(0.6, 0.980392, 0.6, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64qo1"]
+bg_color = Color(0.18359, 0.18359, 0.18359, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p881e"]
+
+[sub_resource type="Animation" id="Animation_rtybf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-663, 6)]
+}
+
+[sub_resource type="Animation" id="Animation_02482"]
+resource_name = "tsunami"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-663, 6), Vector2(1621, 9)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bhmys"]
+_data = {
+"RESET": SubResource("Animation_rtybf"),
+"tsunami": SubResource("Animation_02482")
+}
+
+[node name="Control" type="Control" node_paths=PackedStringArray("player1", "player2", "player3", "player4", "enemy")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gtjua")
+player1 = NodePath("Players/Player1")
+player2 = NodePath("Players/Player2")
+player3 = NodePath("Players/Player3")
+player4 = NodePath("Players/Player4")
+enemy = NodePath("EnemyInfo")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_yuwhr")
+
+[node name="EnemyInfo" type="Panel" parent="." node_paths=PackedStringArray("progressBar")]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+script = ExtResource("3_r26nj")
+entity_name = "Thor"
+max_health = 50
+progressBar = NodePath("Data/ProgressBar")
+
+[node name="Enemy" type="VBoxContainer" parent="EnemyInfo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_top = 101.0
+offset_right = 90.0
+offset_bottom = 328.0
+grow_horizontal = 2
+
+[node name="TextureRect" type="TextureRect" parent="EnemyInfo/Enemy"]
+layout_mode = 2
+texture = ExtResource("4_8ytfq")
+expand_mode = 5
+
+[node name="Data" type="HBoxContainer" parent="EnemyInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="EnemyInfo/Data"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="EnemyInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_iqmip")
+theme_override_styles/fill = SubResource("StyleBoxFlat_om2gf")
+show_percentage = false
+
+[node name="Label" type="Label" parent="EnemyInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Textbox" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(1000, 200)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -498.0
+offset_top = 90.0
+offset_right = 502.0
+offset_bottom = 290.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_64qo1")
+script = ExtResource("5_ao0xj")
+
+[node name="Label" type="Label" parent="Textbox"]
+custom_minimum_size = Vector2(900, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Temp text"
+
+[node name="Players" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -404.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Player1" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("6_4ivec")
+entity_name = "Bozianna"
+max_health = 12
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player1"]
+layout_mode = 2
+texture = ExtResource("4_8ytfq")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player1"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player1/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player1/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player1/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_iqmip")
+theme_override_styles/fill = SubResource("StyleBoxFlat_om2gf")
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player1/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player1/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player1/PlayerInfo/Data/Buttons" groups=["Buttons", "Player1Btns"]]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player1/PlayerInfo/Data/Buttons" groups=["Buttons", "Player1Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player1/PlayerInfo/Data/Buttons" groups=["Buttons", "Player1Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Attack"
+
+[node name="Select" type="Button" parent="Players/Player1/PlayerInfo" groups=["SelectButtons"]]
+visible = false
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Select This Player
+"
+
+[node name="Player2" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("7_pnkpd")
+entity_name = "Bjor"
+max_health = 12
+defense = 2
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player2"]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = ExtResource("4_8ytfq")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player2"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player2/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player2/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 2"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player2/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_iqmip")
+theme_override_styles/fill = SubResource("StyleBoxFlat_om2gf")
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player2/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player2/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player2/PlayerInfo/Data/Buttons" groups=["Buttons", "Player2Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player2/PlayerInfo/Data/Buttons" groups=["Buttons", "Player2Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player2/PlayerInfo/Data/Buttons" groups=["Buttons", "Player2Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Attack"
+
+[node name="Select" type="Button" parent="Players/Player2/PlayerInfo" groups=["SelectButtons"]]
+visible = false
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Select This Player
+"
+
+[node name="Player3" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("6_4ivec")
+mv2_dmg = 6
+entity_name = "a"
+max_health = 10
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player3"]
+self_modulate = Color(0, 1, 1, 1)
+layout_mode = 2
+texture = ExtResource("4_8ytfq")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player3"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player3/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player3/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 3"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player3/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_iqmip")
+theme_override_styles/fill = SubResource("StyleBoxFlat_om2gf")
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player3/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player3/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player3/PlayerInfo/Data/Buttons" groups=["Buttons", "Player3Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player3/PlayerInfo/Data/Buttons" groups=["Buttons", "Player3Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player3/PlayerInfo/Data/Buttons" groups=["Buttons", "Player3Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Attack"
+
+[node name="Select" type="Button" parent="Players/Player3/PlayerInfo" groups=["SelectButtons"]]
+visible = false
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Select This Player
+"
+
+[node name="Player4" type="VBoxContainer" parent="Players" node_paths=PackedStringArray("progressBar")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("6_4ivec")
+mv2_dmg = 6
+entity_name = "temp"
+max_health = 10
+defense = 3
+progressBar = NodePath("PlayerInfo/Data/ProgressBar")
+
+[node name="TextureRect" type="TextureRect" parent="Players/Player4"]
+modulate = Color(0.74251, 0.000361847, 0.727659, 1)
+layout_mode = 2
+texture = ExtResource("4_8ytfq")
+expand_mode = 5
+
+[node name="PlayerInfo" type="Panel" parent="Players/Player4"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Data" type="VBoxContainer" parent="Players/Player4/PlayerInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Players/Player4/PlayerInfo/Data"]
+layout_mode = 2
+text = "Player 4"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Players/Player4/PlayerInfo/Data"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_iqmip")
+theme_override_styles/fill = SubResource("StyleBoxFlat_om2gf")
+show_percentage = false
+
+[node name="Label" type="Label" parent="Players/Player4/PlayerInfo/Data/ProgressBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 10/10"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Players/Player4/PlayerInfo/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="move1" type="Button" parent="Players/Player4/PlayerInfo/Data/Buttons" groups=["Buttons", "Player4Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 1"
+
+[node name="move2" type="Button" parent="Players/Player4/PlayerInfo/Data/Buttons" groups=["Buttons", "Player4Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Move 2"
+
+[node name="attack" type="Button" parent="Players/Player4/PlayerInfo/Data/Buttons" groups=["Buttons", "Player4Btns"]]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p881e")
+text = "Attack"
+
+[node name="Select" type="Button" parent="Players/Player4/PlayerInfo" groups=["SelectButtons"]]
+visible = false
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Select This Player
+"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bhmys")
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -663.0
+offset_top = 6.0
+offset_right = -61.0
+offset_bottom = 366.0
+texture = ExtResource("8_q757j")
+
+[node name="Menu" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 642.0
+offset_top = 562.0
+offset_right = 981.0
+offset_bottom = 836.0
+text = "Back To Menu"
+
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/move1" to="." method="_on_p1_mv1_pressed"]
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/move2" to="." method="_on_p1_mv2_pressed"]
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Data/Buttons/attack" to="." method="_on_p1_att_pressed"]
+[connection signal="pressed" from="Players/Player1/PlayerInfo/Select" to="." method="_select_p1"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Data/Buttons/move1" to="." method="_on_p2_mv1_pressed"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Data/Buttons/move2" to="." method="_on_p2_mv2_pressed"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Data/Buttons/attack" to="." method="_on_p2_att_pressed"]
+[connection signal="pressed" from="Players/Player2/PlayerInfo/Select" to="." method="_select_p2"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Data/Buttons/move1" to="." method="_on_p3_mv1_pressed"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Data/Buttons/move2" to="." method="_on_p3_mv2_pressed"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Data/Buttons/attack" to="." method="_on_p3_att_pressed"]
+[connection signal="pressed" from="Players/Player3/PlayerInfo/Select" to="." method="_select_p3"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/move1" to="." method="_on_p4_mv1_pressed"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/move2" to="." method="_on_p4_mv2_pressed"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Data/Buttons/attack" to="." method="_on_p4_att_pressed"]
+[connection signal="pressed" from="Players/Player4/PlayerInfo/Select" to="." method="_select_p4"]
+[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]
